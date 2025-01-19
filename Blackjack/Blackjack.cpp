@@ -108,19 +108,23 @@ void Blackjack::deal(std::vector<Card*>* toDeal, int count){
 
 int Blackjack::sumHand(std::vector<Card*>* toSum){
     int sum = 0;
-    for(Card* card : *toSum){
-        if(card->getValue()>10){
-            if(card->getFace()==Card::Ace){
-                if(sum+11>21){
-                    sum+=1; // Ace becomes +1 if +11 would be over 21
-                }else{
+    for(int i=toSum->size()-1;i>=0;--i){
+        if(toSum->at(i)->getValue()>10){
+            if(toSum->at(i)->getFace()==Card::Ace){
                 sum+=11;
-                }
             }else{
                 sum+=10;
             }
         }else{
-            sum+=card->getValue();
+            sum+=toSum->at(i)->getValue();
+        }
+    }
+    //Acount for Aces if over
+    if(sum>21){
+        for(Card* card : *toSum){
+            if(card->getFace()==Card::Ace && sum>21){
+                sum-=10;    // was 11, becomes 1
+            }
         }
     }
     return sum;
