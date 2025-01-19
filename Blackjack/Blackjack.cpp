@@ -4,6 +4,9 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+//Util Function
+std::string genLine(char lineChar, int count);
+
 int main(){
     
     Blackjack myGame = Blackjack();
@@ -45,22 +48,25 @@ void Blackjack::playRound(){
 
     bool roundIsOver = false;
     bool turnIsOver = false;
-    while(!roundIsOver&&!turnIsOver){
-        cout<<"Your hand: "<<sumHand(playerHand)<<endl;
-        cout<<strHand(playerHand)<<endl;
-        int guessValue = 0;
-        if(dealerHand->at(0)->getFace()==Card::Ace){
+    
+    int guessValue = 0;
+    if(dealerHand->at(0)->getFace()==Card::Ace){
                 guessValue=11;
             }else if(dealerHand->at(0)->getValue()>10){ 
                 guessValue=10;
             }else{
                 guessValue=dealerHand->at(0)->getValue();
             }
-        cout<<endl<<"Dealers Hand: "<<"MAX: "<<(guessValue+11)<<endl; // No total to give away hidden card
-        cout<<strHand(dealerHand)<<endl;
+    cout<<endl<<"Dealers Hand: "<<"MAX: "<<(guessValue+11)<<endl; // No total to give away hidden card
+    cout<<strHand(dealerHand)<<endl;
+
+    while(!roundIsOver&&!turnIsOver){
+        cout<<"Your hand: "<<sumHand(playerHand)<<endl;
+        cout<<strHand(playerHand)<<endl;
         roundIsOver = roundOver(playerHand);
         
         if(!roundIsOver){
+            cout<<genLine('=', 20);
             cout<<"H: Hit | S: Stand: ";
             cin>>input;
             while(input!="H"&&input!="S"){
@@ -69,8 +75,9 @@ void Blackjack::playRound(){
                 cout<<"H: Hit | S: Stand: ";
                 cin>>input;
             }
+            cout<<genLine('=', 20);
             turnIsOver = input=="S";
-
+            
             if(!turnIsOver){   // If not standing, hitting
                 deal(playerHand, 1);
             }
@@ -79,9 +86,10 @@ void Blackjack::playRound(){
             deck->resetDeck();
         }
     }
-
+    hideDealerSecondCard=false;
     // Dealer turn
     if(!roundIsOver){
+        // hideDealerSecondCard=false;
         int dealSum = sumHand(dealerHand); 
         int playHand = sumHand(playerHand);
         while(dealSum<playHand&&dealSum<21){
@@ -89,6 +97,7 @@ void Blackjack::playRound(){
             dealSum = sumHand(dealerHand);
         }
     }
+    
     cout<<endl<<"Dealers Hand: "<<sumHand(dealerHand)<<endl;
     cout<<strHand(dealerHand)<<endl;
 
@@ -143,18 +152,19 @@ int Blackjack::sumHand(std::vector<Card*>* toSum){
 
 std::string Blackjack::strHand(std::vector<Card*>* toPrint){
     std::string toReturn = "";
-    toReturn+='\n';
+    toReturn+= genLine('-', LINECOUNT);
     for(unsigned int i=0;i<toPrint->size();++i){
         if(hideDealerSecondCard&&toPrint==dealerHand&&i==1){
-            hideDealerSecondCard=false;
             toReturn+="Hidden Card";
             toReturn+='\n';
+            toReturn+= genLine('-', LINECOUNT);
             return toReturn;
         }
         Card* card = toPrint->at(i);
         toReturn+= card->toString();
-        toReturn+='\n';        
+        toReturn+='\n';
     }
+    toReturn+= genLine('-', LINECOUNT);
     return toReturn;
 }
 
@@ -170,4 +180,12 @@ bool Blackjack::roundOver(std::vector<Card*>* toInterpret){
     }
 
     return roundOver;
+}
+
+std::string genLine(char lineChar, int count){
+    std::string toReturn = "";
+    for(int x=0;x<count;++x)toReturn+=lineChar;
+    toReturn+='\n';
+
+    return toReturn;
 }
