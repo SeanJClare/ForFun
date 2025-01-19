@@ -1,5 +1,4 @@
 #include "Blackjack.h"
-#include <iostream>
 using std::cout;
 using std::endl;
 using std::cin;
@@ -16,7 +15,7 @@ int main(){
 
 Blackjack::Blackjack(){
     
-    deck = new Deck();
+    deck = new Deck(true);
     playerHand = new std::vector<Card*>();
     dealerHand = new std::vector<Card*>();
 
