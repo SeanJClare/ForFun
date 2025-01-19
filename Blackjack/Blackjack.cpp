@@ -48,7 +48,16 @@ void Blackjack::playRound(){
     while(!roundIsOver&&!turnIsOver){
         cout<<"Your hand: "<<sumHand(playerHand)<<endl;
         cout<<strHand(playerHand)<<endl;
-        
+        int guessValue = 0;
+        if(dealerHand->at(0)->getFace()==Card::Ace){
+                guessValue=11;
+            }else if(dealerHand->at(0)->getValue()>10){ 
+                guessValue=10;
+            }else{
+                guessValue=dealerHand->at(0)->getValue();
+            }
+        cout<<endl<<"Dealers Hand: "<<"MAX: "<<(guessValue+11)<<endl; // No total to give away hidden card
+        cout<<strHand(dealerHand)<<endl;
         roundIsOver = roundOver(playerHand);
         
         if(!roundIsOver){
@@ -73,9 +82,11 @@ void Blackjack::playRound(){
 
     // Dealer turn
     if(!roundIsOver){
-        
-        while(sumHand(dealerHand)<MIN_STAND_VAL&&sumHand(dealerHand)<21){
+        int dealSum = sumHand(dealerHand); 
+        int playHand = sumHand(playerHand);
+        while(dealSum<playHand&&dealSum<21){
             deal(dealerHand,1);
+            dealSum = sumHand(dealerHand);
         }
     }
     cout<<endl<<"Dealers Hand: "<<sumHand(dealerHand)<<endl;
@@ -133,7 +144,13 @@ int Blackjack::sumHand(std::vector<Card*>* toSum){
 std::string Blackjack::strHand(std::vector<Card*>* toPrint){
     std::string toReturn = "";
     toReturn+='\n';
-    for(unsigned int i=0;i<toPrint->size();++i){    // Evil bool to int conversion
+    for(unsigned int i=0;i<toPrint->size();++i){
+        if(hideDealerSecondCard&&toPrint==dealerHand&&i==1){
+            hideDealerSecondCard=false;
+            toReturn+="Hidden Card";
+            toReturn+='\n';
+            return toReturn;
+        }
         Card* card = toPrint->at(i);
         toReturn+= card->toString();
         toReturn+='\n';        

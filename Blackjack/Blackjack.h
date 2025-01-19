@@ -16,10 +16,11 @@ public:
     
 
 private:
-    const int MIN_STAND_VAL = 16;   // Value for dealer to reach before sitting
+    // const int MIN_STAND_VAL = 16;   // Value for dealer to reach before sitting
     int sumHand(std::vector<Card*>* toSum);
     void deal(std::vector<Card*>* toDeal, int count);
     bool roundOver(std::vector<Card*>* toInterpret); // Bust, Blackjack etc..
+    bool hideDealerSecondCard = true;
 
     Deck* deck;
     std::vector<Card*>* playerHand;
