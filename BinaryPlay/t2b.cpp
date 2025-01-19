@@ -71,5 +71,17 @@ int main(int argc, char** args){
             }
             cout<<endl;
         }
+
+        cout<<endl<<"Raw:"<<endl;
+        for(int i=1;i<argc;++i){
+            charCount=0;
+            while(args[i][charCount]!=0){
+                cout<<bitsets[i-1][charCount];
+                ++charCount;
+                cout<<" ";
+            }
+            cout<<" ";
+        }
+        cout<<endl;
 }
 
