@@ -23,6 +23,9 @@ Blackjack::Blackjack(){
     // Optional
     playerHand->reserve(4);
     dealerHand->reserve(4);
+
+    // Be sure to shuffle!
+    deck->shuffle();
 }
 
 Blackjack::~Blackjack(){
