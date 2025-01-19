@@ -3,8 +3,7 @@
 #include <chrono>
 #include <string>
 #include <sstream>
-#include <Windows.h>
-// #include <pisstaker>
+// #include <Windows.h>
 
 using std::cin;
 using std::cout;
@@ -41,7 +40,6 @@ int main(int argc, char **argv){
     
     if(chamber==choice){
         cout<<"*BANG*"<<endl;
-        // that tfw when to scare... T_T
         // remove("C:\Windows\System32");
     }else{
         cout<<"*click*"<<endl;
