@@ -11,16 +11,6 @@ int main(int argc, char** args){
     int charCount;
     std::vector<std::vector<std::bitset<8>>> bitsets;
 
-    // Single Line
-
-    /* Multi
-     *
-     * 
-     * 
-     * 
-     * Line
-    */ 
-
    //Spereates each argument given into characters
     if(argc>1){
         cout<<"Arguments Total: "<<argc-1<<endl<<endl;
